@@ -1,28 +1,49 @@
 package com.codeup.spring.models;
 
-public class Post {
-    private String title;
-    private String body;
-    private long id;
+import javax.persistence.*;
 
-    public Post(long id, String title, String body){
+@Entity
+@Table(
+        name = "posts"
+)
+public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(nullable = false)
+    private String title;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String body;
+
+    public Post() { }
+
+    public Post(long id, String title, String body) {
         this.id = id;
         this.title = title;
         this.body = body;
     }
-    public String getTitle(){
+
+    public String getTitle() {
         return this.title;
     }
 
-    public String getBody(){
+    public String getBody() {
         return this.body;
     }
 
-    public void setTitle(String newTitle){
+    public void setTitle(String newTitle) {
         this.title = newTitle;
     }
 
-    public void setBody(String newBody){
+    public void setBody(String newBody) {
         this.body = newBody;
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

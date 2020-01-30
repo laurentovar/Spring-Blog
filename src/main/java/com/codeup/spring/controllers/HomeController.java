@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 // It should return a string that says "This is the landing page!".
 @Controller
 public class HomeController {
+    //set up empty constructor
+
+    public HomeController(){}
     @GetMapping("/home")
 //    @ResponseBody
     public String homePage() {
