@@ -3,9 +3,7 @@ package com.codeup.spring.models;
 import javax.persistence.*;
 
 @Entity
-@Table(
-        name = "posts"
-)
+@Table(name = "posts")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +13,13 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
+    @OneToOne
+    private PostDetails postDetails;
+
+
     public Post() { }
+
+
 
     public Post(long id, String title, String body) {
         this.id = id;
@@ -46,4 +50,12 @@ public class Post {
     public void setId(long id) {
         this.id = id;
     }
+    public PostDetails getPostDetails() {
+        return postDetails;
+    }
+
+    public void setPostDetails(PostDetails postDetails) {
+        this.postDetails = postDetails;
+    }
+
 }
