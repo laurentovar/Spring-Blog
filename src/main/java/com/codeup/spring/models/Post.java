@@ -1,3 +1,4 @@
+
 package com.codeup.spring.models;
 
 import javax.persistence.*;
@@ -5,57 +6,64 @@ import javax.persistence.*;
 @Entity
 @Table(name = "posts")
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
-    @OneToOne
-    private PostDetails postDetails;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    public Post() {
+    }
 
-    public Post() { }
-
-
-
-    public Post(long id, String title, String body) {
-        this.id = id;
+    public Post(String title, String body) {
         this.title = title;
         this.body = body;
     }
 
-    public String getTitle() {
+    public Post(long id, String title, String body){
+        this.id = id;
+        this.title = title;
+        this.body = body;
+    }
+    public String getTitle(){
         return this.title;
     }
 
-    public String getBody() {
+    public String getBody(){
         return this.body;
     }
 
-    public void setTitle(String newTitle) {
+    public void setTitle(String newTitle){
         this.title = newTitle;
     }
 
-    public void setBody(String newBody) {
+    public void setBody(String newBody){
         this.body = newBody;
     }
 
     public long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(long id) {
         this.id = id;
     }
-    public PostDetails getPostDetails() {
-        return postDetails;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setPostDetails(PostDetails postDetails) {
-        this.postDetails = postDetails;
+    public void setUser(User user) {
+        this.user = user;
     }
-
 }
+

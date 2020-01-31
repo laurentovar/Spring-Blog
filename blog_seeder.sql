@@ -2,9 +2,13 @@ use spring_blog;
 
 truncate table posts;
 
-insert into posts (title, body) values
-('Post 1', 'This is the test post 1 body.'),
-('Post 2', 'This is the test post 2 body.'),
-('Post 3', 'This is the test post 3 body.'),
-('Post 4', 'This is the test post 4 body.'),
-('Post 5', 'This is the test post 5 body.');
+
+insert into users (email, password, username) values
+('bob@email.com', 'letmein', 'bob123');
+
+insert into posts (title, body, user_id) values
+('Post 1', 'This is the test post 1 body.', 1),
+('Post 2', 'This is the test post 2 body.', 1),
+('Post 3', 'This is the test post 3 body.', 1),
+('Post 4', 'This is the test post 4 body.', 1),
+('Post 5', 'This is the test post 5 body.', 1);

@@ -1,20 +1,23 @@
-package com.codeup.spring.controllers;
 
+package com.codeup.spring.controllers;
 import com.codeup.spring.models.Post;
+import com.codeup.spring.models.User;
 import com.codeup.spring.repositories.PostRepository;
+import com.codeup.spring.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 
 @Controller
 public class PostController {
 
     private PostRepository postDao;
+    private UserRepository userDao;
 
-    public PostController(PostRepository postDao) {
+    public PostController(PostRepository postDao, UserRepository userDao) {
         this.postDao = postDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/posts")
@@ -49,28 +52,28 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
     public String viewPost(@PathVariable long id, Model model){
-        Post post1 = new Post(id,"Title 1", "Description 1");
-        model.addAttribute("title", post1.getTitle());
-        model.addAttribute("body",post1.getBody());
+        model.addAttribute("post", postDao.getOne(id));
         return "posts/show";
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
     public String createPostForm(){
-        return "Displaying Create Post Form...";
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String submitPost(){
-        return "Creating a new post...";
-    }
+    public String submitPost(
+            @RequestParam String title,
+            @RequestParam String body
+    ){
+        Post post = new Post(title, body);
+        User user = userDao.getOne(1L);
 
-    @GetMapping("/one/test")
-    public String returnOneToOneView(Model model) {
-        model.addAttribute("posts", postDao.findAll());
-        return "one-to-one-test";
+        post.setUser(user);
+
+        postDao.save(post);
+
+        return "redirect:/posts/" + post.getId();
     }
 
 }
