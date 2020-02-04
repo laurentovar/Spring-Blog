@@ -1,79 +1,80 @@
-
 package com.codeup.spring.controllers;
+
 import com.codeup.spring.models.Post;
 import com.codeup.spring.models.User;
 import com.codeup.spring.repositories.PostRepository;
 import com.codeup.spring.repositories.UserRepository;
+//import com.codeup.spring.models.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
 
 @Controller
 public class PostController {
 
-    private PostRepository postDao;
-    private UserRepository userDao;
+    private final PostRepository postDao;
+    private final UserRepository userDao;
+
 
     public PostController(PostRepository postDao, UserRepository userDao) {
         this.postDao = postDao;
         this.userDao = userDao;
+
+    }
+//    @Autowired
+//    EmailService emailService;
+
+
+    @GetMapping("/")
+    public String index() {
+        System.out.println((SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+        return "/posts/index";
     }
 
     @GetMapping("/posts")
-    public String postsIndex(Model model){
+    public String index(Model model) {
         model.addAttribute("posts", postDao.findAll());
-        return "posts/index";
+        return "/posts/show";
     }
 
-    @GetMapping("/posts/{id}/edit")
-    public String viewEditPostForm(@PathVariable long id, Model model) {
+    @GetMapping("posts/{id}/edit")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("post", postDao.getOne(id));
-        return "posts/edit";
+        return "/posts/edit";
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String updatePost(@PathVariable long id, @RequestParam String title, @RequestParam String body) {
-        Post p = new Post(
-                id,
-                title,
-                body
-        );
-        postDao.save(p);
-        return "redirect:/posts";
+    public String update(@PathVariable long id, @RequestParam String title, @RequestParam String body) {
+        Post oldAd = postDao.getOne(id);
+        oldAd.setTitle(title);
+        oldAd.setDescription(body);
+        postDao.save(oldAd);
+        return "redirect:/posts/";
     }
 
     @PostMapping("/posts/{id}/delete")
-    public String deletePost(@PathVariable long id) {
-        System.out.println("Does this run?");
+    public String delete(@PathVariable long id) {
         postDao.deleteById(id);
-        return "redirect:/posts";
-    }
-
-    @GetMapping("/posts/{id}")
-    public String viewPost(@PathVariable long id, Model model){
-        model.addAttribute("post", postDao.getOne(id));
-        return "posts/show";
+        return "redirect:/posts/";
     }
 
     @GetMapping("/posts/create")
-    public String createPostForm(){
+    public String showCreateForm(Model vModel){
+        vModel.addAttribute("post",new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String submitPost(
-            @RequestParam String title,
-            @RequestParam String body
-    ){
-        Post post = new Post(title, body);
-        User user = userDao.getOne(1L);
+    public String create(@ModelAttribute Post postToBeCreated) {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        postToBeCreated.setUser(currentUser);
+        postDao.save(postToBeCreated);
+//        emailService.prepareAndSend(postToBeCreated, "add created", "a add has been created and the id attached to said ad is  "+ postToBeCreated.getId());
+        return "redirect:/posts/";
 
-        post.setUser(user);
-
-        postDao.save(post);
-
-        return "redirect:/posts/" + post.getId();
     }
+
 
 }

@@ -65,5 +65,9 @@ public class Post {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void setDescription(String body) {
+        this.body = body;
+    }
 }
 

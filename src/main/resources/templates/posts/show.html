@@ -1,23 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="partials/head :: head('View Post')"></head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="partials/head :: head('Index')"></head>
+
 <body>
-<div class="wrapper">
-    <nav th:replace="partials/navbar :: navbar"></nav>
-    <header class="container my-5">
-        <div class="jumbotron">
-            <h1 class="text-center display-1">View Post</h1>
-        </div>
-    </header>
-    <main class="container">
-        <h1>
-            <span th:text="${post.title}"></span>
-            posted by <span th:text="${post.user.email}"></span>
-        </h1>
-        <p th:text="${post.body}"></p>
-        <p>Created by user with id <span th:text="${post.user.id}"></span></p>
-    </main>
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+
+<div class="card p-3" th:each="post : ${posts}" >
+    <h1 th:text="${post.title}"></h1>
+    <p th:text="${post.body}"></p>
+    <input type="hidden" name="id" th:value="${post.id}">
+    <a th:href="@{'/posts/' + ${post.id} + '/edit'}" class="btn btn-warning">Edit post</a>
+    <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post">
+        <button class="btn btn-danger btn-block">Delete post</button>
+
+    </form>
 </div>
-<th:block th:replace="partials/scripts :: scripts" />
 </body>
 </html>
