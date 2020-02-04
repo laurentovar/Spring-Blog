@@ -7,6 +7,7 @@
 
 <body style="background-color:#FEDEC3 !important;">
 <nav th:replace="partials/navbar :: navbar"></nav>
+<h1 id="mainTitle" class="text-center">Artistic Posts</h1>
 
 <div class="container" id="artPosts" th:each="post : ${posts}">
     <div class="card">

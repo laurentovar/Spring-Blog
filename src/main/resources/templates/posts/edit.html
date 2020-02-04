@@ -3,27 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Post</title>
-    <head th:replace="partials/head :: head('Index')"></head>
+    <head th:replace="partials/head :: head('Index')">
 
 </head>
-<body>
+<body style="background-color:#FEDEC3 !important;">
 <nav th:replace="partials/navbar :: navbar"></nav>
+<h1 class="text-center">Edit Post</h1>
 
-<h1>Edit Post</h1>
 <form th:action="@{'/posts/' + ${post.id} + '/edit'}" th:method="POST"
       th:object="${post}">
-
     <label for="title">Title</label>
     <input id="title" type="text" th:field="*{title}"
            th:value="${post.title}" placeholder="Enter title">
-
     <label for="body">Body</label>
     <textarea id="body" th:field="*{body}" th:text="${post.body}"
               placeholder="Enter body">
-
         </textarea>
-
-
     <button>Update Post</button>
 </form>
 
@@ -31,5 +26,23 @@
     <button>Delete Post</button>
 </form>
 
+<!--<div class="container">-->
+<!--    <div class="card">-->
+<!--        <form th:action="@{'/posts/' + ${post.id} + '/edit'}" th:method="POST" th:object="${post}">-->
+<!--            <label class="card-header" for="title">Title</label>-->
+<!--            <input id="title" type="text" th:field="*{title}" th:value="${post.title}" placeholder="Enter title">-->
+
+<!--            <label class="card-body" for="body">Body</label>-->
+<!--            <textarea id="body" th:field="*{body}" th:text="${post.body}" placeholder="Enter body"></textarea>-->
+<!--                <a class="btn btn-warning" style="">UPDATE</a>-->
+<!--                -->
+<!--        </form>       -->
+<!--                <form th:action="@{|/posts/${post.id}/delete|}" th:method="POST">-->
+<!--                    <a class="btn btn-secondary text-white d-flex align-items-center">DELETE</a>-->
+<!--                </form>-->
+<!--        -->
+<!--            -->
+<!--    </div>-->
+<!--</div>-->
 </body>
 </html>
