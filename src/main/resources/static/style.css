@@ -1,0 +1,17 @@
+body {
+    background-color: #FEDEC3;
+}
+#artNav {
+    background-color: #9f5b41 !important;
+}
+.jumbotron {
+    background-color: #75998a;
+    color: white;
+}
+#artPosts {
+    margin-top:15px;
+    margin-bottom: 15px;
+}
+#postTitle {
+    color: #9f5b41;
+}

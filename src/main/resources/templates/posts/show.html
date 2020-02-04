@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="partials/head :: head('Index')"></head>
+<head th:replace="partials/head :: head('Index')">
 
-<body>
+</head>
+
+
+<body style="background-color:#FEDEC3 !important;">
 <nav th:replace="partials/navbar :: navbar"></nav>
 
-
-<div class="card p-3" th:each="post : ${posts}" >
-    <h1 th:text="${post.title}"></h1>
-    <p th:text="${post.body}"></p>
-    <input type="hidden" name="id" th:value="${post.id}">
-    <a th:href="@{'/posts/' + ${post.id} + '/edit'}" class="btn btn-warning">Edit post</a>
-    <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post">
-        <button class="btn btn-danger btn-block">Delete post</button>
-
-    </form>
+<div class="container" id="artPosts" th:each="post : ${posts}">
+    <div class="card">
+        <h2 id="postTitle" class="text-center" th:text="${post.title}"></h2>
+        <div class="card-body" th:text="${post.body}"></div>
+        <input type="hidden" name="id" th:value="${post.id}">
+        <div class="card-footer">
+            <div class="btn-wrapper text-center d-flex justify-content-between">
+                <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post">
+                <a class="btn btn-secondary  text-white d-flex align-items-center" >DELETE</a>
+                </form>
+                <a class="btn btn-warning" style=""  th:href="@{'/posts/' + ${post.id} + '/edit'}">EDIT</a>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
